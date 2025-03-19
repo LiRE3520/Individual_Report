@@ -1,14 +1,93 @@
 \documentclass{article}
+\usepackage{amsthm}
+\usepackage{amsmath, amssymb}
+\usepackage[margin=1in]{geometry}
 
-\begin{document}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
 
 \title{Partitions}
 \author{Lewis Reed}
 \date{March 2025}
+
+\begin{document}
+
 \maketitle
 
 \section{What is a partition?}
 
+\begin{definition}
+    A \textbf{partition} $p(n)$ of a natural number $n$ is a way of writing $n$ as a sum of positive integer parts.
+\end{definition}
+
+\noindent
+For example, the partitions of 4 look like this:
+
+\[
+\begin{aligned}
+&4 \\
+&3 + 1 \\
+&2 + 2 \\
+&2 + 1 + 1 \\
+&1 + 1 + 1 + 1
+\end{aligned}
+\]
+
+\noindent
+Each number in a partition is called a part. The function $p(n)$ counts the total number of partitions of $n$.
+There is no formula for $p(n)$, but Hardy and Ramanujan got very close with their asymptotic formula:
+
+\[
+p(n) \sim \frac{1}{4n\sqrt{3}}\exp\left(\pi\sqrt{\frac{2n}{3}}\right)
+\]
+
+\noindent
+$p(n)$ can be given conditions to produce more specific results, where different results can be compared
+and bijections can be drawn.
+
+\begin{theorem}
+    $p(n \mid \text{each part is odd}) = p(n \mid \text{each part is distinct})$
+\end{theorem}
+    
+\begin{proof}
+Starting with an odd-partition part, 'pair up' repeated parts and replace them with their double until there are
+no repeated parts. Once all repeated parts are paired up, the parts of the partition are all distinct.
+\newline For example, consider this partiton of 10 with only odd parts:
+
+\[
+5 + 3 + 1 + 1
+\]
+
+\noindent
+Pair up the two 1s and replace them with 2 to get this new partition:
+
+\[
+5 + 3 + 2
+\]
+
+\noindent
+There are no more repeated parts, so we are now left with a partiton of distinct parts.
+\newline Starting with a distinct-part partition, 'split' any even parts and replace them with their two halves.
+
+\[
+5 + 3 + 2
+\]
+
+\noindent
+Split up the 2 and replace it with two 1s to get this new partition:
+
+\[
+5 + 3 + 1 + 1
+\]
+
+\noindent
+Every odd-part partition uniquely maps to a distinct-part partition and vice versa. This establishes a bijection.
+\end{proof}
+
+\newpage
+
+\section{Representing partitions with Young diagrams}
 
 
 \end{document}
