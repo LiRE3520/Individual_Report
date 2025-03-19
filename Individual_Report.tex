@@ -2,6 +2,7 @@
 \usepackage{amsthm}
 \usepackage{amsmath, amssymb}
 \usepackage[margin=1in]{geometry}
+\usepackage{ytableau}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
@@ -89,5 +90,150 @@ Every odd-part partition uniquely maps to a distinct-part partition and vice ver
 
 \section{Representing partitions with Young diagrams}
 
+\begin{definition}
+    A \textbf{Young diagram} is a diagram used to represent a partition.
+\end{definition}
+
+\noindent
+It is made up of squares, where each square represents
+the value of 1. Each part is represented by a row of squares, with the rows going down in decreasing order.
+\newline Here is the Young diagram for the partition of 10, 5 + 3 + 2:
+
+\[
+\begin{minipage}{0.3\textwidth}
+    \ydiagram[]
+        {5,3,2}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+    First row: 5 squares \\
+    Second row: 3 squares \\
+    Third row: 2 squares
+\end{minipage}
+\]
+
+\noindent
+These diagrams can be used to further analyse bijections between different types of partitions.
+
+\begin{theorem}
+    $p(n \mid \text{largest part has size $k$}) = p(n \mid \text{has $k$ parts})$
+\end{theorem}
+
+\begin{proof}
+Consider the \textbf{conjugate} of the previous Young diagram, where the conjugate is the result of
+flipping the diagram on its diagonal:
+
+\[
+\begin{minipage}{0.3\textwidth}
+    \ydiagram[]
+        {3,3,2,1,1}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+    This represents the partition 3 + 3 + 2 + 1 + 1 which is also a partiton of 10.
+\end{minipage}
+\]
+
+\noindent
+When flipping the diagram, the first row, which is the largest part, becomes the first column, which is the
+number of parts. In the previous example, the largest part of the original partition has size 5, and the number of
+parts of the conjugate is 5.
+\newline Every Young diagram uniquely maps to its conjugate and vice versa. This establishes a bijection.
+\end{proof}
+
+\section{Representing partitions with generating functions}
+
+\begin{definition}
+    A \textbf{generating function} is a way to represent a sequence of numbers as a power series. 
+\end{definition}
+
+\noindent
+Since the geometric series identity gives:
+
+\[
+\frac{1}{1 - x} = 1 + x + x^2 + x^3 + x^4 + \dots
+\]
+
+\noindent
+and similarly,
+
+\[
+\frac{1}{1 - x^2} = 1 + x^2 + x^4 + x^6 + x^8 + \dots,
+\]
+
+\noindent
+each term represents including that power of \( x \) any number of times. Extending this pattern, we obtain
+the partition generating function:
+
+\[
+\prod_{n=1}^{\infty} \frac{1}{1 - x^n}
+\]
+
+\noindent
+where each factor \( \frac{1}{1 - x^n} \) accounts for the possibility of including the number \( n \) any
+number of times in a partition.
+
+\newpage
+
+To find $p(6)$, the number of partitions of 6, we expand the first few terms of the generating function:
+    
+\begin{align}
+\prod_{n=1}^{\infty} \frac{1}{1 - x^n} &= \frac{1}{1-x} \cdot \frac{1}{1-x^2} \cdot \frac{1}{1-x^3} \cdot \frac{1}{1-x^4} \cdot \frac{1}{1-x^5} \cdot \frac{1}{1-x^6} \cdot \ldots \\
+\end{align}
+
+Each factor can be expanded as follows:
+\begin{align}
+\frac{1}{1-x} &= 1 + x + x^2 + x^3 + x^4 + x^5 + x^6 + \ldots \\
+\frac{1}{1-x^2} &= 1 + x^2 + x^4 + x^6 + \ldots \\
+\frac{1}{1-x^3} &= 1 + x^3 + x^6 + \ldots \\
+\frac{1}{1-x^4} &= 1 + x^4 + \ldots \\
+\frac{1}{1-x^5} &= 1 + x^5 + \ldots \\
+\frac{1}{1-x^6} &= 1 + x^6 + \ldots
+\end{align}
+
+When we multiply these expansions, the coefficient of $x^6$ in the product will correspond to $p(6)$. To find this coefficient, we need to identify all combinations of terms whose powers sum to 6:
+
+\[
+\begin{align}
+\item $x^6$ from $\frac{1}{1-x}$: represents the partition $6 = 1+1+1+1+1+1$
+\item $x^4 \cdot x^2$ from $\frac{1}{1-x}$ and $\frac{1}{1-x^2}$: represents $6 = 1+1+1+1+2$
+\item $x^2 \cdot x^4$ from $\frac{1}{1-x}$ and $\frac{1}{1-x^4}$: represents $6 = 1+1+4$
+\item $x^2 \cdot x^2 \cdot x^2$ from $\frac{1}{1-x^2}$: represents $6 = 2+2+2$
+\item $x^3 \cdot x^3$ from $\frac{1}{1-x^3}$: represents $6 = 3+3$
+\item $x^3 \cdot x^2 \cdot x^1$ from $\frac{1}{1-x^3}$, $\frac{1}{1-x^2}$, and $\frac{1}{1-x}$: represents $6 = 3+2+1$
+\item $x^3 \cdot x^1 \cdot x^1 \cdot x^1$ from $\frac{1}{1-x^3}$ and $\frac{1}{1-x}$: represents $6 = 3+1+1+1$
+\item $x^2 \cdot x^2 \cdot x^1 \cdot x^1$ from $\frac{1}{1-x^2}$ and $\frac{1}{1-x}$: represents $6 = 2+2+1+1$
+\item $x^4 \cdot x^1 \cdot x^1$ from $\frac{1}{1-x^4}$ and $\frac{1}{1-x}$: represents $6 = 4+1+1$
+\item $x^5 \cdot x^1$ from $\frac{1}{1-x^5}$ and $\frac{1}{1-x}$: represents $6 = 5+1$
+\item $x^6$ from $\frac{1}{1-x^6}$: represents the partition $6 = 6$
+\end{align}
+\]
+
+Counting these combinations, we find that $p(6) = 11$. The complete list of partitions of 6 is:
+\begin{align}
+6 &= 6\\
+6 &= 5+1\\
+6 &= 4+2\\
+6 &= 4+1+1\\
+6 &= 3+3\\
+6 &= 3+2+1\\
+6 &= 3+1+1+1\\
+6 &= 2+2+2\\
+6 &= 2+2+1+1\\
+6 &= 2+1+1+1+1\\
+6 &= 1+1+1+1+1+1
+\end{align}
+
+Note that we've actually missed two partitions in our enumeration above: $6 = 3+1+1+1$ and $6 = 2+2+1+1$. This is because we need to consider all possible ways to obtain $x^6$ when multiplying the infinite series together.
+
+More rigorously, we can compute the first few terms of the product:
+\begin{align}
+(1 + x + x^2 + \ldots)(1 + x^2 + x^4 + \ldots)(1 + x^3 + x^6 + \ldots)\ldots
+\end{align}
+
+This gives us:
+\begin{align}
+1 + x + 2x^2 + 3x^3 + 5x^4 + 7x^5 + 11x^6 + \ldots
+\end{align}
+
+Thus, the coefficient of $x^6$ is 11, confirming that $p(6) = 11$.
 
 \end{document}
