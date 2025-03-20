@@ -3,6 +3,7 @@
 \usepackage{amsmath, amssymb}
 \usepackage[margin=1in]{geometry}
 \usepackage{ytableau}
+\usepackage{tikz}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
@@ -52,7 +53,7 @@ and bijections can be drawn.
 \end{theorem}
     
 \begin{proof}
-Starting with an odd-partition part, 'pair up' repeated parts and replace them with their double until there are
+Starting with an odd-partition part, ``pair up'' repeated parts and replace them with their double until there are
 no repeated parts. Once all repeated parts are paired up, the parts of the partition are all distinct.
 \newline For example, consider this partiton of 10 with only odd parts:
 
@@ -69,7 +70,7 @@ Pair up the two 1s and replace them with 2 to get this new partition:
 
 \noindent
 There are no more repeated parts, so we are now left with a partiton of distinct parts.
-\newline Starting with a distinct-part partition, 'split' any even parts and replace them with their two halves.
+\newline Starting with a distinct-part partition, ``split'' any even parts and replace them with their two halves.
 
 \[
 5 + 3 + 2
@@ -268,5 +269,223 @@ For example, if we want to find $p_2(8)$, we look at the coefficient of $x^8$ in
 Therefore, $p_2(8) = 5$.
 
 \end{proof}
+
+\section{Franklin's involution}
+
+\begin{definition}
+
+Consider a Young diagram of a partition of distinct parts. We can name two regions of the diagram:
+
+\[
+\begin{minipage}{0.3\textwidth}
+    \begin{ytableau}
+        *(white)  & *(white)  & *(white)  & *(white)  & *(white)  & *(blue) \\
+        *(white)  & *(white)  & *(white)  & *(white)  & *(blue) \\
+        *(green)  & *(green)  & *(green)
+    \end{ytableau}
+\end{minipage}
+\hfill
+\begin{minipage}{0.6\textwidth}
+    Blue - We call this the \textbf{slope}. \newline
+    Green - This is the \textbf{base}, which is simply the smallest part in the partition.
+\end{minipage}
+\]
+
+\noindent
+We can manipulate these regions using a certain method, called \textbf{Franklin's involution}:
+\begin{itemize}
+    \item If the slope is less than the base, we can ``move'' the slope down below the base to become the new base.
+    \item If the slope is greater than or equal to the base, we can ``move'' the base up to become the new slope.
+\end{itemize}
+
+\end{definition}
+
+\begin{theorem}
+    If Franklin's involution is successful, it will map a partition with either an even number of distinct parts to
+    one with an odd number of distinct parts.
+\end{theorem}
+
+\begin{proof}
+
+\noindent
+For our previous example of the partition of 14, 6 + 5 + 3, which maps a partition with an odd number of parts to
+one with an even number of parts:
+
+\[
+\begin{minipage}{0.3\textwidth}
+    \begin{ytableau}
+        *(white)  & *(white)  & *(white)  & *(white)  & *(white)  & *(blue) \\
+        *(white)  & *(white)  & *(white)  & *(white)  & *(blue) \\
+        *(green)  & *(green)  & *(green)
+    \end{ytableau}
+\end{minipage}
+\hfill
+\begin{minipage}{0.3\textwidth}
+    \begin{tikzpicture}
+        \draw[thick, ->] (0,0) -- (2,0);
+    \end{tikzpicture}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+    \begin{ytableau}
+        *(white)  & *(white)  & *(white)  & *(white)  & *(white) \\
+        *(white)  & *(white)  & *(white)  & *(white)  & \\
+        *(green)  & *(green)  & *(green) \\
+        *(blue)  & *(blue)
+    \end{ytableau}
+\end{minipage}
+\]
+
+\newpage
+
+\noindent
+For this example of the partition of 17, 6 + 5 + 4 + 2, which maps a partition with an even number of parts to
+one with an odd number of parts:
+
+\[
+\begin{minipage}{0.3\textwidth}
+    \begin{ytableau}
+        *(white)  & *(white)  & *(white)  & *(white)  & *(white)  & *(blue) \\
+        *(white)  & *(white)  & *(white)  & *(white)  & *(blue) \\
+        *(white)  & *(white)  & *(white)  & *(blue) \\
+        *(green)  & *(green)
+    \end{ytableau}
+\end{minipage}
+\hfill
+\begin{minipage}{0.3\textwidth}
+    \begin{tikzpicture}
+        \draw[thick, ->] (0,0) -- (2,0);
+    \end{tikzpicture}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+    \begin{ytableau}
+        *(white)  & *(white)  & *(white)  & *(white)  & *(white)  & *(blue)  & *(green) \\
+        *(white)  & *(white)  & *(white)  & *(white)  & *(blue)  & *(green) \\
+        *(white)  & *(white)  & *(white)  & *(blue)
+    \end{ytableau}
+\end{minipage}
+\]
+
+\noindent
+The transformation uniquely maps a partition with an even number of parts to one with an odd number of distinct
+parts, and vice versa. This establishes a bijection.
+
+\end{proof}
+
+\section{When does Franklin's involution not work?}
+
+For all the partitons of numbers like 10, 9 and 8, every partition with an even number of distinct parts pairs up
+exactly with a partition with an odd number of distinct parts. However, for the partitons of a number like 7, there
+is a ``leftover'' partiton which does not map to any counterpart. This particular example is the partition of 3 + 4,
+which looks like this:
+
+\[
+\begin{minipage}{0.3\textwidth}
+    \ydiagram[]
+    {4,3}
+\end{minipage}
+\hfill
+\begin{minipage}{0.3\textwidth}
+    \begin{tikzpicture}
+        \draw[thick, ->] (0,0) -- (2,0);
+    \end{tikzpicture}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+    {\Huge ?}
+\end{minipage}
+\]
+
+\noindent
+The problem with this particular Young diagram is that the slope and base overlap:
+
+\[
+\begin{ytableau}
+    *(white)  & *(white)  & *(white)  & *(blue) \\
+    *(green)  & *(green)  & *(cyan)
+\end{ytableau}
+\]
+
+\noindent
+If you try and perform the involution anyway, you would want to move the slope down to become a new base, since
+the slope is less than the base. This would look like this:
+
+\[
+\begin{ytableau}
+    *(white)  & *(white)  & *(white) \\
+    *(green)  & *(green) \\
+    *(blue)  & *(cyan)
+\end{ytableau}
+\]
+
+\noindent
+Since this involves moving a part of the old base, this is creates the partition 3 + 2 + 2, which is no
+longer a partition of distinct parts. This means the involution fails. \par
+
+\vspace{10pt}
+
+\noindent
+Another example of where there is a leftover partition which does not map to any counterpart is the partitions of 12.
+The particular diagram where the involution fails is for the partition 5 + 4 + 3, which looks like this:
+
+\[
+\begin{minipage}{0.3\textwidth}
+    \ydiagram[]
+    {5,4,3}
+\end{minipage}
+\hfill
+\begin{minipage}{0.3\textwidth}
+    \begin{tikzpicture}
+        \draw[thick, ->] (0,0) -- (2,0);
+    \end{tikzpicture}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+    {\Huge ?}
+\end{minipage}
+\]
+
+\noindent
+In this case the slope and base also overlap:
+
+\[
+\begin{ytableau}
+    *(white)  & *(white)  & *(white)  & *(white)  & *(blue) \\
+    *(white)  & *(white)  & *(white)  & *(blue) \\
+    *(green)  & *(green)  & *(cyan)
+\end{ytableau}
+\]
+
+\noindent
+Trying to perform the involution anyway, means you would want to move the base up to become the new slope, since
+the slope is equal to the base. This would look like this:
+
+\[
+\begin{minipage}{0.25\textwidth}
+    \begin{ytableau}
+        *(white)  & *(white)  & *(white)  & *(white)  & *(blue)  & *(green) \\
+        *(white)  & *(white)  & *(white)  & *(blue)  & *(green) \\
+    \end{ytableau}
+\end{minipage}
+\hfill
+\begin{minipage}{0.25\textwidth}
+    \begin{ytableau}
+        *(cyan)
+    \end{ytableau}
+\end{minipage}
+\hfill
+\begin{minipage}{0.25\textwidth}
+    \begin{tikzpicture}
+        \draw[thick, <-] (0,0) -- (2,0);
+    \end{tikzpicture}
+\end{minipage}
+\hfill
+\begin{minipage}{0.25\textwidth}
+    \fbox{
+        \parbox{\textwidth}{\centering No rows left \\ in the slope for \\ this square}
+    }
+\end{minipage}
+\]
+
+\noindent
+Since this involves moving a part of the old slope, there are less rows than the new slope, leaving one square free.
+This means the involution fails.
 
 \end{document}
