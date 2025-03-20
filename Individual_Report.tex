@@ -214,23 +214,7 @@ When we multiply these expansions, the coefficient of $x^6$ in the product will 
 \]
 
 \noindent
-Counting these combinations, we find that \( p(6) = 11 \). The complete list of partitions of 6 is:
-
-\[
-\begin{aligned}
-6 &= 6 \\
-6 &= 5+1 \\
-6 &= 4+2 \\
-6 &= 4+1+1 \\
-6 &= 3+3 \\
-6 &= 3+2+1 \\
-6 &= 3+1+1+1 \\
-6 &= 2+2+2 \\
-6 &= 2+2+1+1 \\
-6 &= 2+1+1+1+1 \\
-6 &= 1+1+1+1+1+1
-\end{aligned}
-\]
+Counting these combinations, we find that \( p(6) = 11 \).
 
 \noindent
 More generally, if you want to find $p(k)$, you can set the upper limit of the product to $k$ and ignore
@@ -251,5 +235,38 @@ which, when expanded out, gives us:
 
 \noindent
 The coefficient of $x^6$ is 11, which is equal to the number of partitions of 6.
+
+\begin{theorem}
+Let $p_2(k)$ be the number of partitions of $k$ where each part is of size at most 2. The generating function for 
+$p_2(k)$ is given by the product $\prod_{n=1}^{2} \frac{1}{1-x^n}$.
+\end{theorem}
+
+\begin{proof}
+To find $p_2(k)$, the number of partitions of $k$ with parts of size at most 2, we only need to expand the first two
+terms of the generating function:
+
+\[
+\frac{1}{1 - x} \cdot \frac{1}{1 - x^2}
+\]
+
+\noindent
+Which is equivalent to:
+
+\[
+(1 + x + x^2 + x^3 + x^4 + x^5 + x^6 + x^7 + x^8 + \dots) \cdot (1 + x^2 + x^4 + x^6 + x^8 + \dots)
+\]
+
+\noindent
+When we expand this out, the coefficient of $x^k$ in the product will correspond to $p_2(k)$.
+For example, if we want to find $p_2(8)$, we look at the coefficient of $x^8$ in:
+
+\[
+1 + x + 2x^2 + 2x^3 + 3x^4 + 3x^5 + 4x^6 + 4x^7 + 5x^8 + \dots
+\]
+
+\noindent
+Therefore, $p_2(8) = 5$.
+
+\end{proof}
 
 \end{document}
