@@ -4,6 +4,8 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{ytableau}
 \usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{hyperref}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
@@ -371,11 +373,10 @@ parts, and vice versa. This establishes a bijection.
 
 \end{proof}
 
-\section{When does Franklin's involution not work?}
-
+\noindent
 For all the partitons of numbers like 10, 9 and 8, every partition with an even number of distinct parts pairs up
-exactly with a partition with an odd number of distinct parts. However, for the partitons of a number like 7, there
-is a ``leftover'' partiton which does not map to any counterpart. This particular example is the partition of 3 + 4,
+exactly with a partition with an odd number of distinct parts. However, for the partitions of a number like 7, there
+is a ``leftover'' partition which does not map to any counterpart. This particular example is the partition of 3 + 4,
 which looks like this:
 
 \[
@@ -453,6 +454,8 @@ In this case the slope and base also overlap:
 \end{ytableau}
 \]
 
+\newpage
+
 \noindent
 Trying to perform the involution anyway, means you would want to move the base up to become the new slope, since
 the slope is equal to the base. This would look like this:
@@ -486,6 +489,212 @@ the slope is equal to the base. This would look like this:
 
 \noindent
 Since this involves moving a part of the old slope, there are less rows than the new slope, leaving one square free.
-This means the involution fails.
+This means the involution fails. \par
+
+\vspace{10pt}
+
+\noindent
+There is a pattern for which numbers have partitons where Franklin's involution fails. The numbers 7 and 12 are
+examples of generalised pentagonal numbers.
+
+\section{Pentagonal number theorem}
+
+\begin{definition}
+The set of \textbf{generalised pentagonal numbers} is an extended version of the set of pentagonal numbers:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{pentagonal_numbers.png}
+    \caption{Pentagonal numbers. Source: \url{https://www.math.net/pentagonal-number}, March 2025.}
+\end{figure}
+
+\end{definition}
+
+\noindent
+Where a pentagonal number $P_k$ follows:
+
+\[
+P_k = \frac{k(3k - 1)}{2} \text{for $k = 0, 1, 2, 3, \dots$}
+\]
+
+\noindent
+And a generalised pentagonal number follows:
+
+\[
+P_k = \frac{k(3k - 1)}{2} \text{for $k = 0, \pm 1, \pm 2, \pm 3, \dots$}
+\]
+
+\begin{theorem}
+The theorem states that:
+
+\[
+\prod_{n=1}^{\infty} (1 - x^n) = \sum_{-\infty}^{\infty} (-1)^k x^{\frac{k(3k-1)}{2}}
+\]
+
+\noindent
+This means that if we expand the left-hand side, we get a series with plus and minus signs, and the powers of $x$
+in the series are pentagonal numbers.
+
+\end{theorem}
+
+\begin{proof}
+
+Considering the cases where Franklin's involution fails, we can use this to derive:
+
+\[
+p_e(n) = p_o(n) + \epsilon(n)
+\]
+
+\noindent
+Where $p_e(n)$ and $p_o(n)$ are the number of partitions with an even or odd number of distinct parts, respectively,
+and:
+
+\[
+\epsilon(n) = 
+    \begin{cases}
+        (-1)^k & \text{if } n = \frac{k(3k-1)}{2} \\
+        0 & \text{if anything else}
+    \end{cases}
+\]
+
+\noindent
+We know this is true because for most $n$, the number of partitions with an even number of distinct parts is the
+same as the number of partitions with an odd number of distinct parts. However, when $n$ is a pentagonal number,
+Franklin's involution fails in exactly one case, leading to an extra even or odd partition. It is exactly one case
+because for a given $n$ that is a generalised pentagonal number, there is exactly one way to form the Young diagram
+where the overlap occurs. \par
+
+\vspace{10pt}
+
+\noindent
+Reframing this in the form of a generating function:
+
+\[
+\sum_{n=0}^{\infty} (p_e(n) - p_o(n)) \cdot x^n
+\]
+
+\noindent
+From the previous identity, we know this is equal to:
+
+\[
+\sum_{n=0}^{\infty} \epsilon(n) \cdot x^n
+\]
+
+\noindent
+This can also be written as:
+
+\[
+\sum_{-\infty}^{\infty} (-1)^k x^{\frac{k(3k-1)}{2}} = (1 - x)(1 - x^2)(1 - x^3)(1 - x^4)(1 - x^5)\dots
+\]
+
+\noindent
+We know this because the product \((1-x)(1-x^2)(1-x^3)\cdots\) expands to a sum where almost every term cancels out
+due to the pairing, except for the special cases. This is why the sum ends up being
+
+\[
+\sum_{-\infty}^{\infty} (-1)^k x^{\frac{k(3k-1)}{2}},
+\]
+
+\noindent
+which is exactly what the pentagonal number theorem states.
+
+\end{proof}
+
+\noindent
+From this, we can see:
+
+\[
+\prod_{n=1}^{\infty} (1 - x^n) = 1 - x - x^2 + x^5 + x^7 - x^{12} - \dots
+\]
+
+\section{Euler's recurrence relation}
+
+\begin{definition}
+\textbf{Euler’s recurrence relation} expresses the partition function \( p(n) \) in terms of previous
+values using contributions from generalized pentagonal numbers. It is given by:
+
+\[
+p(n) = p(n-1) + p(n-2) - p(n-5) - p(n-7) + \dots
+\]
+
+\noindent
+where the terms correspond to the generalized pentagonal numbers \( g_k = \frac{k(3k-1)}{2} \) for
+\( k = \pm 1, \pm 2, \pm 3, \dots \), and the signs alternate based on \( k \).
+
+\end{definition}
+
+\begin{theorem}
+For all \( n \geq 1 \),
+
+\[
+p(n) = \sum_{k \neq 0} (-1)^{k+1} p(n - P_k)
+\]
+
+\noindent
+where \( P_k = \frac{k(3k-1)}{2} \) are the generalized pentagonal numbers, and the sum runs over all
+nonzero integers \( k \).
+
+\end{theorem}
+
+\begin{proof}
+
+\noindent
+Recall the generating function for $p(n)$:
+
+\[
+\sum_{n=0}^{\infty} p(n)x^n = \prod_{j=1}^{\infty} \frac{1}{1-x^j}
+\]
+
+\noindent
+We also now know, from the pentagonal number theorem, that:
+
+\[
+\prod_{j=1}^{\infty} (1 - x^j) = 1 - x - x^2 + x^5 + x^7 - x^{12} - \dots
+\]
+
+\noindent
+Using what we now know, we can rewrite the partition generating function:
+
+\[
+\begin{aligned}
+\sum_{n=0}^{\infty} p(n)x^n &= \prod_{j=1}^{\infty} \frac{1}{1-x^j} \\
+&= \frac{1}{\prod_{j=1}^{\infty} (1 - x^j)} \\
+&= \frac{1}{1 - x - x^2 + x^5 + x^7 - x^{12} - \dots}
+\end{aligned}
+\]
+
+\noindent
+Therefore, we can write:
+
+\[
+(\sum_{n=0}^{\infty} p(n)x^n) \cdot (1 - x - x^2 + x^5 + x^7 - x^{12} - \dots) = 1
+\]
+
+\noindent
+Since this is simply the generating function multiplied by 1 over itself. We can expand this expression to get:
+
+\[
+\sum_{n=0}^{\infty} p(n)x^n - \sum_{n=1}^{\infty} p(n - 1)x^n - \sum_{n=2}^{\infty} p(n - 2)x^n -
+\sum_{n=5}^{\infty} p(n - 5)x^n - \sum_{n=7}^{\infty} p(n - 7)x^n - \dots = 1
+\]
+
+\noindent
+Since we know the sum is 1, the coefficients of the $x^n$ terms must equal 0. Therefore:
+
+\[
+p(n) - p(n-1) - p(n - 2) + p(n - 5) + p(n - 7) - \dots = 0
+\]
+
+\noindent
+Which we can rearrange to be:
+
+\[
+p(n) = p(n-1) + p(n - 2) - p(n - 5) - p(n - 7) + \dots
+\]
+
+\noindent
+This is exactly Euler's recurrence relation.
+
+\end{proof}
 
 \end{document}
